@@ -1,0 +1,15 @@
+D:\Projects\FNAECSTemplate\ContentImporter\bin\Debug\net7.0\ContentImporter.exe
+D:\Projects\FNAECSTemplate\ContentImporter\bin\Debug\net7.0\ContentImporter.deps.json
+D:\Projects\FNAECSTemplate\ContentImporter\bin\Debug\net7.0\ContentImporter.runtimeconfig.json
+D:\Projects\FNAECSTemplate\ContentImporter\bin\Debug\net7.0\ContentImporter.dll
+D:\Projects\FNAECSTemplate\ContentImporter\bin\Debug\net7.0\ContentImporter.pdb
+D:\Projects\FNAECSTemplate\ContentImporter\obj\Debug\net7.0\ContentImporter.csproj.AssemblyReference.cache
+D:\Projects\FNAECSTemplate\ContentImporter\obj\Debug\net7.0\ContentImporter.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\FNAECSTemplate\ContentImporter\obj\Debug\net7.0\ContentImporter.AssemblyInfoInputs.cache
+D:\Projects\FNAECSTemplate\ContentImporter\obj\Debug\net7.0\ContentImporter.AssemblyInfo.cs
+D:\Projects\FNAECSTemplate\ContentImporter\obj\Debug\net7.0\ContentImporter.csproj.CoreCompileInputs.cache
+D:\Projects\FNAECSTemplate\ContentImporter\obj\Debug\net7.0\ContentImporter.dll
+D:\Projects\FNAECSTemplate\ContentImporter\obj\Debug\net7.0\refint\ContentImporter.dll
+D:\Projects\FNAECSTemplate\ContentImporter\obj\Debug\net7.0\ContentImporter.pdb
+D:\Projects\FNAECSTemplate\ContentImporter\obj\Debug\net7.0\ContentImporter.genruntimeconfig.cache
+D:\Projects\FNAECSTemplate\ContentImporter\obj\Debug\net7.0\ref\ContentImporter.dll
