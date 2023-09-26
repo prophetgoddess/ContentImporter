@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -257,7 +259,7 @@ public class Program
     }
 
 
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         if (args.Length < 3)
         {
@@ -319,9 +321,22 @@ public class Program
 
         Console.WriteLine("Content loaded, formatting file...");
 
-        System.Diagnostics.Process.Start("cmd.exe", string.Format(
-            "/C dotnet format {0} --include {1}", projectFile, targetFile
-        ));
+        Process process = null;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            process = Process.Start("cmd.exe", string.Format(
+                "/C dotnet format {0} --include {1} --verbosity normal", projectFile, targetFile
+            ));
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            process = Process.Start("dotnet", string.Format(
+                "format {0} --include {1} --verbosity normal", projectFile, targetFile
+            ));
+        else
+            Console.WriteLine("Unsupported OS!!");
+
+        if (process == null) return;
+
+        await process.WaitForExitAsync();
     }
 
 }
+
