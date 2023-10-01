@@ -136,7 +136,13 @@ public class Program
 
     static void GetTextures(StringBuilder fileContents, string sourceFolder)
     {
-        var textureAtlases = Directory.GetFiles(sourceFolder, "*.json", SearchOption.AllDirectories);
+        var textures = Directory.GetFiles(sourceFolder, "*.png", SearchOption.AllDirectories);
+        var textureAtlases = new List<string>();
+        foreach (var filename in textures)
+        {
+            var atlasFilename = filename.Replace(".png", ".json");
+            if (File.Exists(atlasFilename)) textureAtlases.Add(atlasFilename);
+        }
 
         fileContents.Append(TexturesHeader);
 
