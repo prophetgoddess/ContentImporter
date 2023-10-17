@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "K9aBO0hU/HH/EkjxfZ0jKE0Ai0A8gDxDz2nIZ/1weCEWueBbWFR4gtsl9vDj66JgkpAF8xpDlBWUIdVipnSjtQ==",
+  "dgSpecHash": "iWE0pfTZMT9btUXlXcTnRBslImGTpesdn5QY2CO5TE1zeslwaCeeEwlENw5iWoQG58+0+u3yZRbWziaJrC6dtg==",
   "success": true,
-  "projectFilePath": "D:\\Projects\\FNAECSTemplate\\ContentImporter\\ContentImporter.csproj",
+  "projectFilePath": "D:\\Projects\\VisualNovelTutorial\\ContentImporter\\ContentImporter.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

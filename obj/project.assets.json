@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\FNAECSTemplate\\ContentImporter\\ContentImporter.csproj",
+      "projectUniqueName": "D:\\Projects\\VisualNovelTutorial\\ContentImporter\\ContentImporter.csproj",
       "projectName": "ContentImporter",
-      "projectPath": "D:\\Projects\\FNAECSTemplate\\ContentImporter\\ContentImporter.csproj",
+      "projectPath": "D:\\Projects\\VisualNovelTutorial\\ContentImporter\\ContentImporter.csproj",
       "packagesPath": "C:\\Users\\cass\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\FNAECSTemplate\\ContentImporter\\obj\\",
+      "outputPath": "D:\\Projects\\VisualNovelTutorial\\ContentImporter\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\cass\\AppData\\Roaming\\NuGet\\NuGet.Config",

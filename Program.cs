@@ -59,6 +59,21 @@ public class Program
     namespace {0}.Content;
     ";
 
+    static string HeaderWithInk =
+    @"using System;
+    using System.IO;
+    using System.Reflection;
+    using FontStashSharp;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Audio;
+    using Microsoft.Xna.Framework.Media;
+    using Ink.Runtime;
+
+    namespace {0}.Content;
+    ";
+
     static string AllContent =
     @"
     public static class AllContent
@@ -69,6 +84,21 @@ public class Program
             Fonts.Initialize(content);
             SFX.Initialize(content);
             Songs.Initialize(content);
+        }
+    }
+    ";
+
+    static string AllContentPlusInk =
+@"
+    public static class AllContent
+    {
+        public static void Initialize(ContentManager content)
+        {
+            Textures.Initialize(content);
+            Fonts.Initialize(content);
+            SFX.Initialize(content);
+            Songs.Initialize(content);
+            Ink.Initialize(content);
         }
     }
     ";
@@ -95,8 +125,8 @@ public class Program
     static string LoadFont =
     @"{1} = new FontSystem();
     {1}.AddFont(File.ReadAllBytes(
-        Path.Combine(
-            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), content.RootDirectory, @""{0}.ttf""
+        System.IO.Path.Combine(
+            System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), content.RootDirectory, @""{0}.ttf""
         )
     ));
     ";
@@ -114,6 +144,16 @@ public class Program
     @"public static class Songs
     {
     ";
+
+    static string InkHeader =
+    @"public static class Ink
+    {
+    ";
+
+    static string LoadInk =
+    @"{1} = new Story(File.ReadAllText({0}));
+    ";
+
 
     static string LoadSong =
     @"{1} = content.Load<Song>(""{0}"");
@@ -252,7 +292,6 @@ public class Program
             fileContents.Append("{get; private set; }\n");
         }
 
-
         fileContents.Append(Initializer);
 
         foreach (var song in songs)
@@ -264,6 +303,39 @@ public class Program
         fileContents.Append("}\n}\n");
     }
 
+    static void GetInk(StringBuilder fileContents, string sourceFolder)
+    {
+        var json = Directory.GetFiles(sourceFolder, "*.json", SearchOption.AllDirectories);
+        var inks = new List<string>();
+        foreach (var filename in json)
+        {
+            System.Console.WriteLine("got ink json");
+            var testPng = filename.Replace(".json", ".png");
+            if (!File.Exists(testPng)) inks.Add(filename);
+        }
+
+        fileContents.Append(InkHeader);
+
+        foreach (var ink in inks)
+        {
+            System.Console.WriteLine("create ink var");
+            var name = textInfo.ToTitleCase(Regex.Replace(Path.GetFileNameWithoutExtension(ink), @"\s+", string.Empty));
+            fileContents.Append("public static Story ");
+            fileContents.Append(name);
+            fileContents.Append("{get; private set; }\n");
+        }
+
+        fileContents.Append(Initializer);
+        foreach (var ink in inks)
+        {
+            var name = textInfo.ToTitleCase(Regex.Replace(Path.GetFileNameWithoutExtension(ink), @"\s+", string.Empty));
+            fileContents.Append(string.Format(LoadInk,
+            $"System.IO.Path.Join(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), content.RootDirectory, \"{GetRelativePath(sourceFolder, ink)}.json\")",
+            name));
+        }
+
+        fileContents.Append("}\n}\n");
+    }
 
     public static async Task Main(string[] args)
     {
@@ -272,6 +344,8 @@ public class Program
             Console.WriteLine("Usage: ContentImporter.exe <path_to_project_file> <path_to_source_directory> <path_to_destination_file>");
             return;
         }
+
+        bool ink = false;
 
         var projectFile = args[0];
         if (File.Exists(projectFile))
@@ -282,12 +356,19 @@ public class Program
                 Console.WriteLine("ERROR: target must be a file");
                 return;
             }
+            else
+            {
+                var contents = File.ReadAllText(projectFile);
+                ink = contents.Contains("""<ProjectReference Include="..\ink\ink-engine-runtime\ink-engine-runtime.csproj"/>""");
+            }
         }
         else
         {
             Console.WriteLine("ERROR: project files does not exist");
             return;
         }
+
+        Console.WriteLine($"ink included: {ink}");
 
         var sourceFolder = args[1];
         var sourceAttributes = File.GetAttributes(sourceFolder);
@@ -314,14 +395,16 @@ public class Program
 
 
         var fileContents = new StringBuilder();
-        fileContents.Append(string.Format(Header, Path.GetFileNameWithoutExtension(projectFile)));
+        fileContents.Append(string.Format(ink ? HeaderWithInk : Header, Path.GetFileNameWithoutExtension(projectFile)));
 
         GetTextures(fileContents, sourceFolder);
         GetFonts(fileContents, sourceFolder);
         GetSFX(fileContents, sourceFolder);
         GetSongs(fileContents, sourceFolder);
+        if (ink)
+            GetInk(fileContents, sourceFolder);
 
-        fileContents.Append(AllContent);
+        fileContents.Append(ink ? AllContentPlusInk : AllContent);
 
         File.WriteAllText(targetFile, fileContents.ToString());
 
